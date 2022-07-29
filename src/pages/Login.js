@@ -16,6 +16,8 @@ class Login extends React.Component {
   infoValidation = () => {
     const { email, password } = this.state;
     const minLength = 6;
+    // para a validação do email usando RegExp foi consultado o blog bobbyhadz (https://bobbyhadz.com/blog/react-check-if-email-is-valid#:~:text=To%20validate%20an%20email%20in,is%20valid%20and%20false%20otherwise)
+    // e as documentações no MDN (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet) e (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test)
     return ((/\S+@\S+\.\S+/.test(email)) && (password.length >= minLength));
   }
 
