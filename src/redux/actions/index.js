@@ -1,10 +1,10 @@
+import economiaAPI from '../../services/economiaAPI';
+
 // Coloque aqui suas actions .
 export const USER_EMAIL = 'USER_EMAIL';
 
-const API_URL = 'https://economia.awesomeapi.com.br/json/all';
 export const REQUEST_BEGIN = 'REQUEST_BEGIN';
-export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
-export const REQUEST_ERROR = 'REQUEST_ERROR';
+export const REQUEST_CURRENCIES_SUCCESS = 'REQUEST_CURRENCIES_SUCCESS';
 
 export const userAction = (email) => ({
   type: USER_EMAIL,
@@ -12,24 +12,19 @@ export const userAction = (email) => ({
 });
 
 export const requestCurrenciesSuccess = (currencies) => ({
-  type: REQUEST_SUCCESS,
+  type: REQUEST_CURRENCIES_SUCCESS,
   currencies,
-});
-
-export const requestFailure = (error) => ({
-  type: REQUEST_ERROR,
-  error,
 });
 
 export function getCurrenciesDataThunk() {
   return async (dispatch) => {
     try {
-      const response = await fetch(API_URL);
-      const data = await response.json();
+      const response = await economiaAPI();
+      const data = Object.keys(response);
       const currencies = data.filter((item) => item !== 'USDT');
       dispatch(requestCurrenciesSuccess(currencies));
     } catch (error) {
-      dispatch(requestFailure(error));
+      console.log(error);
     }
   };
 }

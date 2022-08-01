@@ -31,7 +31,7 @@ class Header extends Component {
               {' '}
               {expenses}
               {' '}
-              <spam data-testid="header-currency-field">{exchange}</spam>
+              <span data-testid="header-currency-field">{exchange}</span>
             </p>
           </div>
         </div>

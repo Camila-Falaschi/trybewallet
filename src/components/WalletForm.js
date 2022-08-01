@@ -1,15 +1,24 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getCurrenciesDataThunk } from '../redux/actions';
 import SelectInput from './SelectIntput';
 
-export default class WalletForm extends Component {
+class WalletForm extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(getCurrenciesDataThunk());
+  }
+
   render() {
+    const { currencies } = this.props;
     return (
       <form>
         <input type="number" min="0" data-testid="value-input" />
         <SelectInput
           testid="currency-input"
           labelName="Moeda"
-          dataArray={ ['moeda'] }
+          dataArray={ currencies }
         />
         <SelectInput
           testid="method-input"
@@ -27,3 +36,14 @@ export default class WalletForm extends Component {
     );
   }
 }
+
+const mapStateToProps = (store) => ({
+  currencies: store.wallet.currencies,
+});
+
+WalletForm.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps)(WalletForm);
