@@ -1,4 +1,4 @@
-import { REQUEST_CURRENCIES_SUCCESS } from '../actions';
+import { ADD_NEW_EXPENSE, REQUEST_CURRENCIES_SUCCESS } from '../actions';
 
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const INITIAL_STATE = {
@@ -14,6 +14,12 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       currencies: action.currencies,
+    };
+
+  case ADD_NEW_EXPENSE:
+    return {
+      ...state,
+      expenses: action.expenses,
     };
 
   default:
