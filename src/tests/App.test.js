@@ -6,6 +6,6 @@ describe('Login page', () => {
   it('should render the correct path', () => {
     renderWithRouter(<App />, ['/']);
 
-    expect(getByTestId);
+    expect(screen.getByTestId);
   });
 });
