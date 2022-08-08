@@ -18,8 +18,8 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          {(expenses.length > 0) && expenses.map((e, index) => (
-            <tr key={ index }>
+          {(expenses.length > 0) && expenses.map((element, index) => (
+            <tr key={ element.id }>
               <TableRow expensesIndex={ index } />
             </tr>))}
         </tbody>

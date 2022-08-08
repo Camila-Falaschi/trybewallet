@@ -5,6 +5,8 @@ import { waitFor } from '@testing-library/react';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import Wallet from '../pages/Wallet';
+import economiaAPI from '../services/economiaAPI';
+import mockData from './helpers/mockData';
 
 const expensesExample = {
   id: 0,
@@ -57,7 +59,16 @@ describe('Wallet page', () => {
     });
   });
   it('should be able to add new expenses', async () => {
-    renderWithRouterAndRedux(<Wallet />, { initialPath: ['/carteira'] });
+    const initialState = {
+      wallet: {
+        currencies: ['USD', 'CAD', 'GBP', 'ARS', 'BTC', 'LTC', 'EUR',
+          'JPY', 'CHF', 'AUD', 'CNY', 'ILS', 'ETH', 'XRP', 'DOGE'],
+        expenses: [],
+        editor: false,
+        idToEdit: 0,
+      } };
+
+    renderWithRouterAndRedux(<Wallet />, { initialPath: ['/carteira'], initialState });
 
     const valueInput = screen.getByTestId(testIDValueInput);
     const methodInput = screen.getByTestId('method-input');
@@ -77,15 +88,16 @@ describe('Wallet page', () => {
       expect(screen.getByRole('option', { name: 'USD' }).selected).toBe(false);
     });
 
-    userEvent.click(addButton);
-
     const number = 20;
     expect(valueInput).toHaveValue(number);
     expect(screen.getByRole('option', { name: 'Lazer' }).selected).toBe(true);
     expect(screen.getByRole('option', { name: 'Alimentação' }).selected).toBe(false);
-    expect(screen.getByRole('option', { name: 'Cartão de débito' }).selected).toBe(true);
+    expect(screen.getByRole('option', { name: 'Cartão de débito' }).selected)
+      .toBe(true);
     expect(screen.getByRole('option', { name: 'Dinheiro' }).selected).toBe(false);
     expect(descriptionInput).toHaveValue('Viagem');
+
+    userEvent.click(addButton);
   });
   it('should render all the expenses in the table sheet and delete button should work',
     () => {
@@ -173,5 +185,10 @@ describe('Wallet page', () => {
 
     expect(screen.getByRole('cell', { name: 'Almoço' })).toBeInTheDocument();
     expect(screen.getByRole('cell', { name: '21.00' })).toBeInTheDocument();
+  });
+  it('should get the data from the API', async () => {
+    const data = await economiaAPI();
+    const currency = Object.keys(mockData);
+    expect(Object.keys(data)).toBe(currency);
   });
 });
