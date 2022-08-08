@@ -61,7 +61,7 @@ a password bigger than six characters`, () => {
 
   it('should go to the wallet page when clicking the button with the correct login',
     () => {
-      renderWithRouterAndRedux(<App />, { initialPath: ['/'] });
+      const page = renderWithRouterAndRedux(<App />, { initialPath: ['/'] });
 
       const emailInput = screen.getByTestId(emailId);
       const passwordInput = screen.getByTestId(passwordId);
@@ -72,5 +72,8 @@ a password bigger than six characters`, () => {
       userEvent.click(button);
 
       expect(screen.getByText('Despesa Total: R$')).toBeDefined();
+
+      const { pathname } = page.history.location;
+      expect(pathname).toBe('/carteira');
     });
 });
