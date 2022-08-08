@@ -6,6 +6,7 @@ import {
   getCurrenciesDataThunk,
   WalletFormAction,
   clearWalletFormAction,
+  saveEditedExpenseAction,
 } from '../redux/actions';
 import economiaAPI from '../services/economiaAPI';
 import SelectInput from './SelectIntput';
@@ -22,8 +23,25 @@ class WalletForm extends Component {
     dispatch(WalletFormAction(name, value));
   }
 
-  editButton = () => {
+  editButton = (event) => {
+    event.preventDefault();
+    const { dispatch, price, currency, payMethod, tag, description,
+      expenses, idToEdit } = this.props;
 
+    const currentyExpense = expenses.find((item) => item.id === idToEdit);
+    const othersExpenses = expenses.filter((item) => item.id !== idToEdit);
+    const edittingExpense = [{
+      id: currentyExpense.id,
+      value: price,
+      description,
+      currency,
+      method: payMethod,
+      tag,
+      exchangeRates: currentyExpense.exchangeRates,
+    }, ...othersExpenses];
+
+    dispatch(saveEditedExpenseAction(edittingExpense));
+    dispatch(clearWalletFormAction());
   }
 
   handleAddButton = async (event) => {
@@ -131,13 +149,14 @@ WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.any).isRequired,
   editor: PropTypes.bool.isRequired,
-  // idToEdit: PropTypes.number.isRequired,
+  idToEdit: PropTypes.number.isRequired,
 
   price: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   payMethod: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+
   dispatch: PropTypes.func.isRequired,
 };
 

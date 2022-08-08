@@ -2,19 +2,24 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
-import { deleteExpenseRowAction } from '../redux/actions';
+import { deleteExpenseRowAction, editExpenseRowActon } from '../redux/actions';
 
 class TableRow extends Component {
+  editInfo = (id) => {
+    const { dispatch } = this.props;
+    dispatch(editExpenseRowActon(id));
+  };
+
   deleteInfo = (index) => {
     const { dispatch, expenses } = this.props;
     const newArray = expenses.filter((e, elementIndex) => elementIndex !== index);
     dispatch(deleteExpenseRowAction(newArray));
-  }
+  };
 
   render() {
     const { expenses, expensesIndex } = this.props;
     const { currency, description, exchangeRates,
-      method, tag, value } = expenses[expensesIndex];
+      method, tag, value, id } = expenses[expensesIndex];
 
     const exchangeRateData = Object.entries(exchangeRates)
       .find((item) => item[0] === currency);
@@ -36,7 +41,12 @@ class TableRow extends Component {
         <td>{totalValue}</td>
         <td>Real</td>
         <td>
-          <button type="button" id="edit" data-testid="edit-btn">
+          <button
+            type="button"
+            id="edit"
+            data-testid="edit-btn"
+            onClick={ () => this.editInfo(id) }
+          >
             <FiEdit3 />
           </button>
           <button
