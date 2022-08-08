@@ -4,6 +4,8 @@ import economiaAPI from '../../services/economiaAPI';
 export const USER_EMAIL = 'USER_EMAIL';
 export const ADD_NEW_EXPENSE = 'ADD_NEW_EXPENSE';
 
+export const DELETE_WALLETINFO_ROW = 'DELETE_WALLETINFO_ROW';
+
 export const WALLETFORM_STATUS = 'WALLETFORM_STATUS';
 export const CLEAR_WALLETFORM = 'CLEAR_WALLETFORM';
 
@@ -18,6 +20,11 @@ export const userAction = (email) => ({
 export const addNewExpenseAction = (expenses) => ({
   type: ADD_NEW_EXPENSE,
   expenses,
+});
+
+export const deleteExpenseRowAction = (updateExpenses) => ({
+  type: DELETE_WALLETINFO_ROW,
+  updateExpenses,
 });
 
 export const WalletFormAction = (name, value) => ({

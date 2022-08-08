@@ -10,7 +10,7 @@ class Header extends Component {
       const exchange = Object.entries(exchangeRates)
         .find((item) => item[0] === currency);
 
-      const result = value * exchange[1].ask;
+      const result = Number(value) * Number(exchange[1].ask);
 
       return acc + result;
     }, 0);
@@ -33,7 +33,7 @@ class Header extends Component {
           <div>
             <p>Despesa Total: R$ </p>
             <p data-testid="total-field">
-              {(expenses.length === 0) ? '0,00' : this.totalExpenses() }
+              {(expenses.length === 0) ? '0.00' : this.totalExpenses() }
             </p>
             <p data-testid="header-currency-field">BRL</p>
           </div>
