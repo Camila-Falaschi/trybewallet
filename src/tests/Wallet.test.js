@@ -5,8 +5,6 @@ import { waitFor } from '@testing-library/react';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import Wallet from '../pages/Wallet';
-import economiaAPI from '../services/economiaAPI';
-import mockData from './helpers/mockData';
 
 const expensesExample = {
   id: 0,
@@ -185,10 +183,5 @@ describe('Wallet page', () => {
 
     expect(screen.getByRole('cell', { name: 'Almoço' })).toBeInTheDocument();
     expect(screen.getByRole('cell', { name: '21.00' })).toBeInTheDocument();
-  });
-  it('should get the data from the API', async () => {
-    const data = await economiaAPI();
-    const currency = Object.keys(mockData);
-    expect(Object.keys(data)).toBe(currency);
   });
 });
